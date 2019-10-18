@@ -54,6 +54,7 @@ public class Main {
     private static List<String> dqlm_cache = Lists.newArrayList();
     private static List<String> gpu_cache = Lists.newArrayList();
     private static List<String> sg_cache = Lists.newArrayList();
+    private static List<String> xw9400_cache = Lists.newArrayList();
     
     
     static {
@@ -88,170 +89,187 @@ public class Main {
 //              	System.out.println(message);
 //              }
 //          });
-//          Subscription hp128 = nats.subscribe("R.hp128.sysinfo.sysinfo");
-//          Subscription ibm512 = nats.subscribe("R.ibm512.sysinfo.sysinfo");
-//          Subscription z800 = nats.subscribe("R.z800.sysinfo.sysinfo");
-//          Subscription z820 = nats.subscribe("R.z820.sysinfo.sysinfo");
-//          Subscription z840 = nats.subscribe("R.z840.sysinfo.sysinfo");
+          Subscription hp128 = nats.subscribe("R.hp128.sysinfo.sysinfo");
+          Subscription ibm512 = nats.subscribe("R.ibm512.sysinfo.sysinfo");
+          Subscription z800 = nats.subscribe("R.z800.sysinfo.sysinfo");
+          Subscription z820 = nats.subscribe("R.z820.sysinfo.sysinfo");
+          Subscription z840 = nats.subscribe("R.z840.sysinfo.sysinfo");
           Subscription server = nats.subscribe("R.server.sysinfo.sysinfo");
-//          Subscription dqhm = nats.subscribe("R.dqhm.sysinfo.sysinfo");
-//          Subscription dqlm = nats.subscribe("R.dqlm.sysinfo.sysinfo");
-//          Subscription sg = nats.subscribe("R.sg.sysinfo.sysinfo");
-//          Subscription gpu = nats.subscribe("R.gpu.sysinfo.sysinfo");
+          Subscription dqhm = nats.subscribe("R.dqhm.sysinfo.sysinfo");
+          Subscription dqlm = nats.subscribe("R.dqlm.sysinfo.sysinfo");
+          Subscription sg = nats.subscribe("R.sg.sysinfo.sysinfo");
+          Subscription gpu = nats.subscribe("R.gpu.sysinfo.sysinfo");
+          Subscription xw9400 = nats.subscribe("R.xw9400.sysinfo.sysinfo");
         // 多个消息处理器
 
-        // Multiple message handlers
-//        hp128.addMessageHandler(new MessageHandler() {
-//            public void onMessage(Message message) {
-//            	try {
-//            	    XData data = subscribeSysInfo(message);
-//                    if(data!=null) {
-//                        if(!hp128_cache.contains(data.getHostname())) {
-//                            hp128_cache.add(data.getHostname());
-//                            FileUtils.write(new File("/opt/hp128.txt"), data.getHostname()+" "+data.getIp()+"\n", "utf-8", true);
-//                        }
-//                    }
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
-//          dqhm.addMessageHandler(new MessageHandler() {
-//              public void onMessage(Message message) {
-//                  try {
-//                      XData data = subscribeSysInfo(message);
-//                      if(data!=null) {
-//                          if(!dqhm_cache.contains(data.getHostname())) {
-//                              dqhm_cache.add(data.getHostname());
-//                              FileUtils.write(new File("/opt/dqhm.txt"), data.getHostname()+" "+data.getIp()+"\n", "utf-8", true);
-//                          }
-//                      }
-//                  } catch (IOException e) {
-//                      e.printStackTrace();
-//                  }
-//              }
-//          });
-//          dqlm.addMessageHandler(new MessageHandler() {
-//              public void onMessage(Message message) {
-//                  try {
-//                      XData data = subscribeSysInfo(message);
-//                      if(data!=null) {
-//                          if(!dqlm_cache.contains(data.getHostname())) {
-//                              dqlm_cache.add(data.getHostname());
-//                              FileUtils.write(new File("/opt/dqlm.txt"), data.getHostname()+" "+data.getIp()+"\n", "utf-8", true);
-//                          }
-//                      }
-//                  } catch (IOException e) {
-//                      e.printStackTrace();
-//                  }
-//              }
-//          });
-//          sg.addMessageHandler(new MessageHandler() {
-//              public void onMessage(Message message) {
-//                  try {
-//                      XData data = subscribeSysInfo(message);
-//                      if(data!=null) {
-//                          if(!sg_cache.contains(data.getHostname())) {
-//                              sg_cache.add(data.getHostname());
-//                              FileUtils.write(new File("/opt/sg.txt"), data.getHostname()+" "+data.getIp()+"\n", "utf-8", true);
-//                          }
-//                      }
-//                  } catch (IOException e) {
-//                      e.printStackTrace();
-//                  }
-//              }
-//          });
-//          gpu.addMessageHandler(new MessageHandler() {
-//              public void onMessage(Message message) {
-//                  try {
-//                      XData data = subscribeSysInfo(message);
-//                      if(data!=null) {
-//                          if(!gpu_cache.contains(data.getHostname())) {
-//                              gpu_cache.add(data.getHostname());
-//                              FileUtils.write(new File("/opt/gpu.txt"), data.getHostname()+" "+data.getIp()+"\n", "utf-8", true);
-//                          }
-//                      }
-//                  } catch (IOException e) {
-//                      e.printStackTrace();
-//                  }
-//              }
-//          });
-//          ibm512.addMessageHandler(new MessageHandler() {
-//            public void onMessage(Message message) {
-//                try {
-//                    XData data = subscribeSysInfo(message);
-//                    if(data!=null) {
-//                        if(!ibm512_cache.contains(data.getHostname())) {
-//                            ibm512_cache.add(data.getHostname());
-//                            FileUtils.write(new File("/opt/ibm512.txt"), data.getHostname()+" "+data.getIp()+"\n", "utf-8", true);
-//                        }
-//                    }
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
-//          
-//          z800.addMessageHandler(new MessageHandler() {
-//              public void onMessage(Message message) {
-//                  try {
-//                      XData data = subscribeSysInfo(message);
-//                      if(data!=null) {
-//                          if(!z800_cache.contains(data.getHostname())) {
-//                              z800_cache.add(data.getHostname());
-//                              FileUtils.write(new File("/opt/z800.txt"), data.getHostname()+" "+data.getIp()+"\n", "utf-8", true);
-//                          }
-//                      }
-//                      
-//                  } catch (IOException e) {
-//                      e.printStackTrace();
-//                  }
-//              }
-//          });
-//          
-//          z820.addMessageHandler(new MessageHandler() {
-//              public void onMessage(Message message) {
-//                  try {
-//                      XData data = subscribeSysInfo(message);
-//                      if(data!=null) {
-//                          if(!z820_cache.contains(data.getHostname())) {
-//                              z820_cache.add(data.getHostname());
-//                              FileUtils.write(new File("/opt/z820.txt"), data.getHostname()+" "+data.getIp()+"\n", "utf-8", true);
-//                          }
-//                      }
-//                  } catch (IOException e) {
-//                      e.printStackTrace();
-//                  }
-//              }
-//          });
-//          
-//          z840.addMessageHandler(new MessageHandler() {
-//              public void onMessage(Message message) {
-//                  try {
-//                      XData data = subscribeSysInfo(message);
-//                      if(data!=null) {
-//                          if(!z840_cache.contains(data.getHostname())) {
-//                              z840_cache.add(data.getHostname());
-//                              FileUtils.write(new File("/opt/z840.txt"), data.getHostname()+" "+data.getIp()+"\n", "utf-8", true);
-//                          }
-//                      }
-//                  } catch (IOException e) {
-//                      e.printStackTrace();
-//                  }
-//              }
-//          });
+//         Multiple message handlers
+        hp128.addMessageHandler(new MessageHandler() {
+            public void onMessage(Message message) {
+            	try {
+            	    XData data = subscribeSysInfo(message);
+                    if(data!=null) {
+                        if(!hp128_cache.contains(data.getHostname())) {
+                            hp128_cache.add(data.getHostname());
+                            FileUtils.write(new File("/opt/hp128.txt"), data.getHostname()+" "+data.getIp()+"\n", "utf-8", true);
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+          dqhm.addMessageHandler(new MessageHandler() {
+              public void onMessage(Message message) {
+                  try {
+                      XData data = subscribeSysInfo(message);
+                      if(data!=null) {
+                          if(!dqhm_cache.contains(data.getHostname())) {
+                              dqhm_cache.add(data.getHostname());
+                              FileUtils.write(new File("/opt/dqhm.txt"), data.getHostname()+" "+data.getIp()+"\n", "utf-8", true);
+                          }
+                      }
+                  } catch (IOException e) {
+                      e.printStackTrace();
+                  }
+              }
+          });
+          dqlm.addMessageHandler(new MessageHandler() {
+              public void onMessage(Message message) {
+                  try {
+                      XData data = subscribeSysInfo(message);
+                      if(data!=null) {
+                          if(!dqlm_cache.contains(data.getHostname())) {
+                              dqlm_cache.add(data.getHostname());
+                              FileUtils.write(new File("/opt/dqlm.txt"), data.getHostname()+" "+data.getIp()+"\n", "utf-8", true);
+                          }
+                      }
+                  } catch (IOException e) {
+                      e.printStackTrace();
+                  }
+              }
+          });
+          sg.addMessageHandler(new MessageHandler() {
+              public void onMessage(Message message) {
+                  try {
+                      XData data = subscribeSysInfo(message);
+                      if(data!=null) {
+                          if(!sg_cache.contains(data.getHostname())) {
+                              sg_cache.add(data.getHostname());
+                              FileUtils.write(new File("/opt/sg.txt"), data.getHostname()+" "+data.getIp()+"\n", "utf-8", true);
+                          }
+                      }
+                  } catch (IOException e) {
+                      e.printStackTrace();
+                  }
+              }
+          });
+          gpu.addMessageHandler(new MessageHandler() {
+              public void onMessage(Message message) {
+                  try {
+                      XData data = subscribeSysInfo(message);
+                      if(data!=null) {
+                          if(!gpu_cache.contains(data.getHostname())) {
+                              gpu_cache.add(data.getHostname());
+                              FileUtils.write(new File("/opt/gpu.txt"), data.getHostname()+" "+data.getIp()+"\n", "utf-8", true);
+                          }
+                      }
+                  } catch (IOException e) {
+                      e.printStackTrace();
+                  }
+              }
+          });
+          ibm512.addMessageHandler(new MessageHandler() {
+            public void onMessage(Message message) {
+                try {
+                    XData data = subscribeSysInfo(message);
+                    if(data!=null) {
+                        if(!ibm512_cache.contains(data.getHostname())) {
+                            ibm512_cache.add(data.getHostname());
+                            FileUtils.write(new File("/opt/ibm512.txt"), data.getHostname()+" "+data.getIp()+"\n", "utf-8", true);
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+          
+          z800.addMessageHandler(new MessageHandler() {
+              public void onMessage(Message message) {
+                  try {
+                      XData data = subscribeSysInfo(message);
+                      if(data!=null) {
+                          if(!z800_cache.contains(data.getHostname())) {
+                              z800_cache.add(data.getHostname());
+                              FileUtils.write(new File("/opt/z800.txt"), data.getHostname()+" "+data.getIp()+"\n", "utf-8", true);
+                          }
+                      }
+                      
+                  } catch (IOException e) {
+                      e.printStackTrace();
+                  }
+              }
+          });
+          
+          z820.addMessageHandler(new MessageHandler() {
+              public void onMessage(Message message) {
+                  try {
+                      XData data = subscribeSysInfo(message);
+                      if(data!=null) {
+                          if(!z820_cache.contains(data.getHostname())) {
+                              z820_cache.add(data.getHostname());
+                              FileUtils.write(new File("/opt/z820.txt"), data.getHostname()+" "+data.getIp()+"\n", "utf-8", true);
+                          }
+                      }
+                  } catch (IOException e) {
+                      e.printStackTrace();
+                  }
+              }
+          });
+          
+          z840.addMessageHandler(new MessageHandler() {
+              public void onMessage(Message message) {
+                  try {
+                      XData data = subscribeSysInfo(message);
+                      if(data!=null) {
+                          if(!z840_cache.contains(data.getHostname())) {
+                              z840_cache.add(data.getHostname());
+                              FileUtils.write(new File("/opt/z840.txt"), data.getHostname()+" "+data.getIp()+"\n", "utf-8", true);
+                          }
+                      }
+                  } catch (IOException e) {
+                      e.printStackTrace();
+                  }
+              }
+          });
           
           server.addMessageHandler(new MessageHandler() {
               public void onMessage(Message message) {
                   try {
-//                      XData data = subscribeSysInfo(message);
-//                      if(data!=null) {
-//                          if(!server_cache.contains(data.getHostname())) {
-//                              server_cache.add(data.getHostname());
-//                              FileUtils.write(new File("/opt/server.txt"), data.getHostname()+" "+data.getIp()+"\n", "utf-8", true);
-//                          }
-//                      }
-                      FileUtils.write(new File("/opt/server_raw.txt"), message.getBody()+"\n", "utf-8", true);
+                      XData data = subscribeSysInfo(message);
+                      if(data!=null) {
+                          if(!server_cache.contains(data.getHostname())) {
+                              server_cache.add(data.getHostname());
+                              FileUtils.write(new File("/opt/server.txt"), data.getHostname()+" "+data.getIp()+"\n", "utf-8", true);
+                          }
+                      }
+//                      FileUtils.write(new File("/opt/server_raw.txt"), message.getBody()+"\n", "utf-8", true);
+                  } catch (Exception e) {
+                      e.printStackTrace();
+                  }
+              }
+          });
+          
+          xw9400.addMessageHandler(new MessageHandler() {
+              public void onMessage(Message message) {
+                  try {
+                      XData data = subscribeSysInfo(message);
+                      if(data!=null) {
+                          if(!xw9400_cache.contains(data.getHostname())) {
+                              xw9400_cache.add(data.getHostname());
+                              FileUtils.write(new File("/opt/xw9400.txt"), data.getHostname()+" "+data.getIp()+"\n", "utf-8", true);
+                          }
+                      }
                   } catch (Exception e) {
                       e.printStackTrace();
                   }
